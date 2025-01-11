@@ -10,46 +10,45 @@
             margin: 0;
             padding: 0;
             background-color: #f9f9f9;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         header {
             background-color: #4CAF50;
             color: white;
             padding: 10px;
             text-align: center;
+            width: 100%;
         }
         .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
             padding: 20px;
+            width: 100%;
         }
         .section {
-            margin-bottom: 20px;
-            display: none;
-        }
-        .section.active {
-            display: block;
+            flex: 1 1 30%;
+            margin: 10px;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
         label {
             font-weight: bold;
         }
-        select, input[type="button"] {
+        input[type="radio"], input[type="button"] {
             display: block;
             margin-top: 10px;
-            padding: 10px;
-            width: 100%;
-            max-width: 300px;
         }
         #itinerary {
             background-color: #ffffff;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 5px;
-        }
-        .media {
-            margin-top: 10px;
-        }
-        img, video {
-            max-width: 100%;
-            height: auto;
-            margin-top: 10px;
+            width: 100%;
         }
     </style>
 </head>
@@ -59,62 +58,38 @@
     </header>
     <div class="container">
         <div id="step1" class="section active">
-            <label for="breakfast">Choose a Breakfast Place:</label>
-            <select id="breakfast">
-                <option value="Cafe Silva">Cafe Silva</option>
-                <option value="Big John's Mountain Grill">Big John's Mountain Grill</option>
-                <option value="La Sierra Mexican Restaurant">La Sierra Mexican Restaurant</option>
-            </select>
-            <div class="media" id="breakfastMedia">
-                <img src="" id="breakfastImage" alt="Breakfast Image" style="display:none;">
-                <video id="breakfastGif" autoplay loop muted style="display:none;"></video>
-            </div>
+            <label>Choose a Breakfast Place:</label>
+            <input type="radio" name="breakfast" value="Cafe Silva"> Cafe Silva
+            <input type="radio" name="breakfast" value="Big John's Mountain Grill"> Big John's Mountain Grill
+            <input type="radio" name="breakfast" value="La Sierra Mexican Restaurant"> La Sierra Mexican Restaurant
             <input type="button" value="Next" onclick="goToStep(2)">
         </div>
 
-        <div id="step2" class="section">
-            <label for="morningActivity">Choose a Morning Activity:</label>
-            <select id="morningActivity">
-                <option value="Frazier Mountain Trail">Frazier Mountain Trail</option>
-                <option value="Pine Mountain Club Trail">Pine Mountain Club Trail</option>
-                <option value="McGill Trail">McGill Trail</option>
-            </select>
-            <div class="media" id="morningActivityMedia">
-                <img src="" id="morningActivityImage" alt="Morning Activity Image" style="display:none;">
-                <video id="morningActivityGif" autoplay loop muted style="display:none;"></video>
-            </div>
+        <div id="step2" class="section" style="display:none;">
+            <label>Choose a Morning Activity:</label>
+            <input type="radio" name="morningActivity" value="Frazier Mountain Trail"> Frazier Mountain Trail
+            <input type="radio" name="morningActivity" value="Pine Mountain Club Trail"> Pine Mountain Club Trail
+            <input type="radio" name="morningActivity" value="McGill Trail"> McGill Trail
             <input type="button" value="Next" onclick="goToStep(3)">
         </div>
 
-        <div id="step3" class="section">
-            <label for="lunch">Choose a Lunch Place:</label>
-            <select id="lunch">
-                <option value="Cafe Silva">Cafe Silva</option>
-                <option value="Big John's Mountain Grill">Big John's Mountain Grill</option>
-                <option value="La Sierra Mexican Restaurant">La Sierra Mexican Restaurant</option>
-            </select>
-            <div class="media" id="lunchMedia">
-                <img src="" id="lunchImage" alt="Lunch Image" style="display:none;">
-                <video id="lunchGif" autoplay loop muted style="display:none;"></video>
-            </div>
+        <div id="step3" class="section" style="display:none;">
+            <label>Choose a Lunch Place:</label>
+            <input type="radio" name="lunch" value="Cafe Silva"> Cafe Silva
+            <input type="radio" name="lunch" value="Big John's Mountain Grill"> Big John's Mountain Grill
+            <input type="radio" name="lunch" value="La Sierra Mexican Restaurant"> La Sierra Mexican Restaurant
             <input type="button" value="Next" onclick="goToStep(4)">
         </div>
 
-        <div id="step4" class="section">
-            <label for="afternoonActivity">Choose an Afternoon Activity:</label>
-            <select id="afternoonActivity">
-                <option value="Stargazing at Frazier Park">Stargazing at Frazier Park</option>
-                <option value="Wine Tasting at Local Vineyard">Wine Tasting at Local Vineyard</option>
-                <option value="Visit the Ridge Route Museum">Visit the Ridge Route Museum</option>
-            </select>
-            <div class="media" id="afternoonActivityMedia">
-                <img src="" id="afternoonActivityImage" alt="Afternoon Activity Image" style="display:none;">
-                <video id="afternoonActivityGif" autoplay loop muted style="display:none;"></video>
-            </div>
+        <div id="step4" class="section" style="display:none;">
+            <label>Choose an Afternoon Activity:</label>
+            <input type="radio" name="afternoonActivity" value="Stargazing at Frazier Park"> Stargazing at Frazier Park
+            <input type="radio" name="afternoonActivity" value="Wine Tasting at Local Vineyard"> Wine Tasting at Local Vineyard
+            <input type="radio" name="afternoonActivity" value="Visit the Ridge Route Museum"> Visit the Ridge Route Museum
             <input type="button" value="Finish" onclick="generateItinerary()">
         </div>
 
-        <div id="itinerary" class="section">
+        <div id="itinerary" class="section" style="display:none;">
             <h3>Your Itinerary:</h3>
             <p id="breakfastChoice"></p>
             <p id="morningActivityChoice"></p>
@@ -125,59 +100,22 @@
 
     <script>
         function goToStep(step) {
-            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
-            document.getElementById(`step${step}`).classList.add('active');
+            document.querySelectorAll('.section').forEach(section => section.style.display = 'none');
+            document.getElementById(`step${step}`).style.display = 'block';
         }
 
         function generateItinerary() {
-            const breakfast = document.getElementById('breakfast').value;
-            const morningActivity = document.getElementById('morningActivity').value;
-            const lunch = document.getElementById('lunch').value;
-            const afternoonActivity = document.getElementById('afternoonActivity').value;
+            const breakfast = document.querySelector('input[name="breakfast"]:checked').value;
+            const morningActivity = document.querySelector('input[name="morningActivity"]:checked').value;
+            const lunch = document.querySelector('input[name="lunch"]:checked').value;
+            const afternoonActivity = document.querySelector('input[name="afternoonActivity"]:checked').value;
 
             document.getElementById('breakfastChoice').textContent = `Breakfast: ${breakfast}`;
             document.getElementById('morningActivityChoice').textContent = `Morning Activity: ${morningActivity}`;
             document.getElementById('lunchChoice').textContent = `Lunch: ${lunch}`;
             document.getElementById('afternoonActivityChoice').textContent = `Afternoon Activity: ${afternoonActivity}`;
 
-            updateMedia(breakfast, 'breakfast');
-            updateMedia(morningActivity, 'morningActivity');
-            updateMedia(lunch, 'lunch');
-            updateMedia(afternoonActivity, 'afternoonActivity');
-
             goToStep('itinerary');
-        }
-
-        function updateMedia(choice, type) {
-            const mediaMap = {
-                "Cafe Silva": { image: "cafe_silva.jpg", gif: "cafe_silva.gif" },
-                "Big John's Mountain Grill": { image: "big_johns.jpg", gif: "big_johns.gif" },
-                "La Sierra Mexican Restaurant": { image: "la_sierra.jpg", gif: "la_sierra.gif" },
-                "Frazier Mountain Trail": { image: "frazier_mountain.jpg", gif: "frazier_mountain.gif" },
-                "Pine Mountain Club Trail": { image: "pine_mountain.jpg", gif: "pine_mountain.gif" },
-                "McGill Trail": { image: "mcgill_trail.jpg", gif: "mcgill_trail.gif" },
-                "Stargazing at Frazier Park": { image: "stargazing.jpg", gif: "stargazing.gif" },
-                "Wine Tasting at Local Vineyard": { image: "wine_tasting.jpg", gif: "wine_tasting.gif" },
-                "Visit the Ridge Route Museum": { image: "ridge_museum.jpg", gif: "ridge_museum.gif" }
-            };
-
-            const media = mediaMap[choice];
-            const imageElement = document.getElementById(`${type}Image`);
-            const gifElement = document.getElementById(`${type}Gif`);
-
-            if (media && media.image) {
-                imageElement.src = media.image;
-                imageElement.style.display = 'block';
-            } else {
-                imageElement.style.display = 'none';
-            }
-
-            if (media && media.gif) {
-                gifElement.src = media.gif;
-                gifElement.style.display = 'block';
-            } else {
-                gifElement.style.display = 'none';
-            }
         }
     </script>
 </body>
