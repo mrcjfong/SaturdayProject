@@ -22,6 +22,10 @@
         }
         .section {
             margin-bottom: 20px;
+            display: none;
+        }
+        .section.active {
+            display: block;
         }
         label {
             font-weight: bold;
@@ -42,13 +46,9 @@
         .media {
             margin-top: 10px;
         }
-        img {
+        img, video {
             max-width: 100%;
             height: auto;
-            margin-top: 10px;
-        }
-        video {
-            max-width: 100%;
             margin-top: 10px;
         }
     </style>
@@ -58,117 +58,112 @@
         <h1>Date Planner</h1>
     </header>
     <div class="container">
-        <div class="section">
-            <label for="hike">Choose a Hike:</label>
-            <select id="hike">
-                <option value="Frazier Mountain Trail">Frazier Mountain Trail</option>
-                <option value="Pine Mountain Club Trail">Pine Mountain Club Trail</option>
-                <option value="McGill Trail">McGill Trail</option>
-            </select>
-            <div class="media" id="hikeMedia">
-                <img src="" id="hikeImage" alt="Hike Image" style="display:none;">
-                <video id="hikeVideo" controls style="display:none;"></video>
-            </div>
-        </div>
-
-        <div class="section">
-            <label for="food">Choose Food Options:</label>
-            <select id="food">
+        <div id="step1" class="section active">
+            <label for="breakfast">Choose a Breakfast Place:</label>
+            <select id="breakfast">
                 <option value="Cafe Silva">Cafe Silva</option>
                 <option value="Big John's Mountain Grill">Big John's Mountain Grill</option>
                 <option value="La Sierra Mexican Restaurant">La Sierra Mexican Restaurant</option>
             </select>
-            <div class="media" id="foodMedia">
-                <img src="" id="foodImage" alt="Food Image" style="display:none;">
-                <video id="foodVideo" controls style="display:none;"></video>
+            <div class="media" id="breakfastMedia">
+                <img src="" id="breakfastImage" alt="Breakfast Image" style="display:none;">
+                <video id="breakfastGif" autoplay loop muted style="display:none;"></video>
             </div>
+            <input type="button" value="Next" onclick="goToStep(2)">
         </div>
 
-        <div class="section">
-            <label for="activity">Choose an Activity:</label>
-            <select id="activity">
+        <div id="step2" class="section">
+            <label for="morningActivity">Choose a Morning Activity:</label>
+            <select id="morningActivity">
+                <option value="Frazier Mountain Trail">Frazier Mountain Trail</option>
+                <option value="Pine Mountain Club Trail">Pine Mountain Club Trail</option>
+                <option value="McGill Trail">McGill Trail</option>
+            </select>
+            <div class="media" id="morningActivityMedia">
+                <img src="" id="morningActivityImage" alt="Morning Activity Image" style="display:none;">
+                <video id="morningActivityGif" autoplay loop muted style="display:none;"></video>
+            </div>
+            <input type="button" value="Next" onclick="goToStep(3)">
+        </div>
+
+        <div id="step3" class="section">
+            <label for="lunch">Choose a Lunch Place:</label>
+            <select id="lunch">
+                <option value="Cafe Silva">Cafe Silva</option>
+                <option value="Big John's Mountain Grill">Big John's Mountain Grill</option>
+                <option value="La Sierra Mexican Restaurant">La Sierra Mexican Restaurant</option>
+            </select>
+            <div class="media" id="lunchMedia">
+                <img src="" id="lunchImage" alt="Lunch Image" style="display:none;">
+                <video id="lunchGif" autoplay loop muted style="display:none;"></video>
+            </div>
+            <input type="button" value="Next" onclick="goToStep(4)">
+        </div>
+
+        <div id="step4" class="section">
+            <label for="afternoonActivity">Choose an Afternoon Activity:</label>
+            <select id="afternoonActivity">
                 <option value="Stargazing at Frazier Park">Stargazing at Frazier Park</option>
                 <option value="Wine Tasting at Local Vineyard">Wine Tasting at Local Vineyard</option>
                 <option value="Visit the Ridge Route Museum">Visit the Ridge Route Museum</option>
             </select>
-            <div class="media" id="activityMedia">
-                <img src="" id="activityImage" alt="Activity Image" style="display:none;">
-                <video id="activityVideo" controls style="display:none;"></video>
+            <div class="media" id="afternoonActivityMedia">
+                <img src="" id="afternoonActivityImage" alt="Afternoon Activity Image" style="display:none;">
+                <video id="afternoonActivityGif" autoplay loop muted style="display:none;"></video>
             </div>
+            <input type="button" value="Finish" onclick="generateItinerary()">
         </div>
 
-        <div class="section">
-            <input type="button" value="Generate Itinerary" onclick="generateItinerary()">
-        </div>
-
-        <div id="itinerary" class="section" style="display: none;">
+        <div id="itinerary" class="section">
             <h3>Your Itinerary:</h3>
-            <p id="hikeChoice"></p>
-            <p id="foodChoice"></p>
-            <p id="activityChoice"></p>
+            <p id="breakfastChoice"></p>
+            <p id="morningActivityChoice"></p>
+            <p id="lunchChoice"></p>
+            <p id="afternoonActivityChoice"></p>
         </div>
     </div>
 
     <script>
+        function goToStep(step) {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+        }
+
         function generateItinerary() {
-            const hike = document.getElementById('hike').value;
-            const food = document.getElementById('food').value;
-            const activity = document.getElementById('activity').value;
+            const breakfast = document.getElementById('breakfast').value;
+            const morningActivity = document.getElementById('morningActivity').value;
+            const lunch = document.getElementById('lunch').value;
+            const afternoonActivity = document.getElementById('afternoonActivity').value;
 
-            document.getElementById('hikeChoice').textContent = `Hike: ${hike}`;
-            document.getElementById('foodChoice').textContent = `Food: ${food}`;
-            document.getElementById('activityChoice').textContent = `Activity: ${activity}`;
+            document.getElementById('breakfastChoice').textContent = `Breakfast: ${breakfast}`;
+            document.getElementById('morningActivityChoice').textContent = `Morning Activity: ${morningActivity}`;
+            document.getElementById('lunchChoice').textContent = `Lunch: ${lunch}`;
+            document.getElementById('afternoonActivityChoice').textContent = `Afternoon Activity: ${afternoonActivity}`;
 
-            updateMedia(hike, 'hike');
-            updateMedia(food, 'food');
-            updateMedia(activity, 'activity');
+            updateMedia(breakfast, 'breakfast');
+            updateMedia(morningActivity, 'morningActivity');
+            updateMedia(lunch, 'lunch');
+            updateMedia(afternoonActivity, 'afternoonActivity');
 
-            document.getElementById('itinerary').style.display = 'block';
+            goToStep('itinerary');
         }
 
         function updateMedia(choice, type) {
             const mediaMap = {
-                "Frazier Mountain Trail": {
-                    image: "frazier_mountain.jpg",
-                    video: "frazier_mountain.mp4"
-                },
-                "Pine Mountain Club Trail": {
-                    image: "pine_mountain.jpg",
-                    video: "pine_mountain.mp4"
-                },
-                "McGill Trail": {
-                    image: "mcgill_trail.jpg",
-                    video: "mcgill_trail.mp4"
-                },
-                "Cafe Silva": {
-                    image: "cafe_silva.jpg",
-                    video: "cafe_silva.mp4"
-                },
-                "Big John's Mountain Grill": {
-                    image: "big_johns.jpg",
-                    video: "big_johns.mp4"
-                },
-                "La Sierra Mexican Restaurant": {
-                    image: "la_sierra.jpg",
-                    video: "la_sierra.mp4"
-                },
-                "Stargazing at Frazier Park": {
-                    image: "stargazing.jpg",
-                    video: "stargazing.mp4"
-                },
-                "Wine Tasting at Local Vineyard": {
-                    image: "wine_tasting.jpg",
-                    video: "wine_tasting.mp4"
-                },
-                "Visit the Ridge Route Museum": {
-                    image: "ridge_museum.jpg",
-                    video: "ridge_museum.mp4"
-                }
+                "Cafe Silva": { image: "cafe_silva.jpg", gif: "cafe_silva.gif" },
+                "Big John's Mountain Grill": { image: "big_johns.jpg", gif: "big_johns.gif" },
+                "La Sierra Mexican Restaurant": { image: "la_sierra.jpg", gif: "la_sierra.gif" },
+                "Frazier Mountain Trail": { image: "frazier_mountain.jpg", gif: "frazier_mountain.gif" },
+                "Pine Mountain Club Trail": { image: "pine_mountain.jpg", gif: "pine_mountain.gif" },
+                "McGill Trail": { image: "mcgill_trail.jpg", gif: "mcgill_trail.gif" },
+                "Stargazing at Frazier Park": { image: "stargazing.jpg", gif: "stargazing.gif" },
+                "Wine Tasting at Local Vineyard": { image: "wine_tasting.jpg", gif: "wine_tasting.gif" },
+                "Visit the Ridge Route Museum": { image: "ridge_museum.jpg", gif: "ridge_museum.gif" }
             };
 
             const media = mediaMap[choice];
             const imageElement = document.getElementById(`${type}Image`);
-            const videoElement = document.getElementById(`${type}Video`);
+            const gifElement = document.getElementById(`${type}Gif`);
 
             if (media && media.image) {
                 imageElement.src = media.image;
@@ -177,11 +172,11 @@
                 imageElement.style.display = 'none';
             }
 
-            if (media && media.video) {
-                videoElement.src = media.video;
-                videoElement.style.display = 'block';
+            if (media && media.gif) {
+                gifElement.src = media.gif;
+                gifElement.style.display = 'block';
             } else {
-                videoElement.style.display = 'none';
+                gifElement.style.display = 'none';
             }
         }
     </script>
