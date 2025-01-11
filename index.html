@@ -38,10 +38,18 @@
         }
         label {
             font-weight: bold;
-        }
-        input[type="radio"], input[type="button"] {
             display: block;
-            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .choice {
+            display: inline-block;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .choice img {
+            max-width: 100px;
+            height: auto;
+            display: block;
         }
         #itinerary {
             background-color: #ffffff;
@@ -59,33 +67,81 @@
     <div class="container">
         <div id="step1" class="section active">
             <label>Choose a Breakfast Place:</label>
-            <input type="radio" name="breakfast" value="Cafe Silva"> Cafe Silva
-            <input type="radio" name="breakfast" value="Big John's Mountain Grill"> Big John's Mountain Grill
-            <input type="radio" name="breakfast" value="La Sierra Mexican Restaurant"> La Sierra Mexican Restaurant
+            <div class="choice" onclick="selectChoice('breakfast', 'Cafe Silva')">
+                <img src="cafe_silva.jpg" alt="Cafe Silva">
+            </div>
+            <div class="choice" onclick="selectChoice('breakfast', 'Big John\'s Mountain Grill')">
+                <img src="big_johns.jpg" alt="Big John's Mountain Grill">
+            </div>
+            <div class="choice" onclick="selectChoice('breakfast', 'La Sierra Mexican Restaurant')">
+                <img src="la_sierra.jpg" alt="La Sierra Mexican Restaurant">
+            </div>
+            <div class="choice" onclick="selectChoice('breakfast', 'Mountain Diner')">
+                <img src="mountain_diner.jpg" alt="Mountain Diner">
+            </div>
+            <div class="choice" onclick="selectChoice('breakfast', 'Sunrise Cafe')">
+                <img src="sunrise_cafe.jpg" alt="Sunrise Cafe">
+            </div>
             <input type="button" value="Next" onclick="goToStep(2)">
         </div>
 
         <div id="step2" class="section" style="display:none;">
             <label>Choose a Morning Activity:</label>
-            <input type="radio" name="morningActivity" value="Frazier Mountain Trail"> Frazier Mountain Trail
-            <input type="radio" name="morningActivity" value="Pine Mountain Club Trail"> Pine Mountain Club Trail
-            <input type="radio" name="morningActivity" value="McGill Trail"> McGill Trail
+            <div class="choice" onclick="selectChoice('morningActivity', 'Frazier Mountain Trail')">
+                <img src="frazier_mountain.jpg" alt="Frazier Mountain Trail">
+            </div>
+            <div class="choice" onclick="selectChoice('morningActivity', 'Pine Mountain Club Trail')">
+                <img src="pine_mountain.jpg" alt="Pine Mountain Club Trail">
+            </div>
+            <div class="choice" onclick="selectChoice('morningActivity', 'McGill Trail')">
+                <img src="mcgill_trail.jpg" alt="McGill Trail">
+            </div>
+            <div class="choice" onclick="selectChoice('morningActivity', 'Nature Walk')">
+                <img src="nature_walk.jpg" alt="Nature Walk">
+            </div>
+            <div class="choice" onclick="selectChoice('morningActivity', 'Bird Watching')">
+                <img src="bird_watching.jpg" alt="Bird Watching">
+            </div>
             <input type="button" value="Next" onclick="goToStep(3)">
         </div>
 
         <div id="step3" class="section" style="display:none;">
             <label>Choose a Lunch Place:</label>
-            <input type="radio" name="lunch" value="Cafe Silva"> Cafe Silva
-            <input type="radio" name="lunch" value="Big John's Mountain Grill"> Big John's Mountain Grill
-            <input type="radio" name="lunch" value="La Sierra Mexican Restaurant"> La Sierra Mexican Restaurant
+            <div class="choice" onclick="selectChoice('lunch', 'Cafe Silva')">
+                <img src="cafe_silva.jpg" alt="Cafe Silva">
+            </div>
+            <div class="choice" onclick="selectChoice('lunch', 'Big John\'s Mountain Grill')">
+                <img src="big_johns.jpg" alt="Big John's Mountain Grill">
+            </div>
+            <div class="choice" onclick="selectChoice('lunch', 'La Sierra Mexican Restaurant')">
+                <img src="la_sierra.jpg" alt="La Sierra Mexican Restaurant">
+            </div>
+            <div class="choice" onclick="selectChoice('lunch', 'Mountain Diner')">
+                <img src="mountain_diner.jpg" alt="Mountain Diner">
+            </div>
+            <div class="choice" onclick="selectChoice('lunch', 'Sunrise Cafe')">
+                <img src="sunrise_cafe.jpg" alt="Sunrise Cafe">
+            </div>
             <input type="button" value="Next" onclick="goToStep(4)">
         </div>
 
         <div id="step4" class="section" style="display:none;">
             <label>Choose an Afternoon Activity:</label>
-            <input type="radio" name="afternoonActivity" value="Stargazing at Frazier Park"> Stargazing at Frazier Park
-            <input type="radio" name="afternoonActivity" value="Wine Tasting at Local Vineyard"> Wine Tasting at Local Vineyard
-            <input type="radio" name="afternoonActivity" value="Visit the Ridge Route Museum"> Visit the Ridge Route Museum
+            <div class="choice" onclick="selectChoice('afternoonActivity', 'Stargazing at Frazier Park')">
+                <img src="stargazing.jpg" alt="Stargazing at Frazier Park">
+            </div>
+            <div class="choice" onclick="selectChoice('afternoonActivity', 'Wine Tasting at Local Vineyard')">
+                <img src="wine_tasting.jpg" alt="Wine Tasting at Local Vineyard">
+            </div>
+            <div class="choice" onclick="selectChoice('afternoonActivity', 'Visit the Ridge Route Museum')">
+                <img src="ridge_museum.jpg" alt="Visit the Ridge Route Museum">
+            </div>
+            <div class="choice" onclick="selectChoice('afternoonActivity', 'Fishing at the Lake')">
+                <img src="fishing.jpg" alt="Fishing at the Lake">
+            </div>
+            <div class="choice" onclick="selectChoice('afternoonActivity', 'Picnic in the Park')">
+                <img src="picnic.jpg" alt="Picnic in the Park">
+            </div>
             <input type="button" value="Finish" onclick="generateItinerary()">
         </div>
 
@@ -104,11 +160,21 @@
             document.getElementById(`step${step}`).style.display = 'block';
         }
 
+        function selectChoice(type, choice) {
+            document.querySelectorAll(`input[name="${type}"]`).forEach(input => input.checked = false);
+            const choiceElement = document.createElement('input');
+            choiceElement.type = 'hidden';
+            choiceElement.name = type;
+            choiceElement.value = choice;
+            document.body.appendChild(choiceElement);
+            document.querySelectorAll(`.${type}`).forEach(el => el.style.display = 'none');
+        }
+
         function generateItinerary() {
-            const breakfast = document.querySelector('input[name="breakfast"]:checked').value;
-            const morningActivity = document.querySelector('input[name="morningActivity"]:checked').value;
-            const lunch = document.querySelector('input[name="lunch"]:checked').value;
-            const afternoonActivity = document.querySelector('input[name="afternoonActivity"]:checked').value;
+            const breakfast = document.querySelector('input[name="breakfast"]').value;
+            const morningActivity = document.querySelector('input[name="morningActivity"]').value;
+            const lunch = document.querySelector('input[name="lunch"]').value;
+            const afternoonActivity = document.querySelector('input[name="afternoonActivity"]').value;
 
             document.getElementById('breakfastChoice').textContent = `Breakfast: ${breakfast}`;
             document.getElementById('morningActivityChoice').textContent = `Morning Activity: ${morningActivity}`;
