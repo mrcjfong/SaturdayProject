@@ -1,1 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Planner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        select, input[type="button"] {
+            display: block;
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+        #itinerary {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .media {
+            margin-top: 10px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+        video {
+            max-width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Date Planner</h1>
+    </header>
+    <div class="container">
+        <div class="section">
+            <label for="hike">Choose a Hike:</label>
+            <select id="hike">
+                <option value="Frazier Mountain Trail">Frazier Mountain Trail</option>
+                <option value="Pine Mountain Club Trail">Pine Mountain Club Trail</option>
+                <option value="McGill Trail">McGill Trail</option>
+            </select>
+            <div class="media" id="hikeMedia">
+                <img src="" id="hikeImage" alt="Hike Image" style="display:none;">
+                <video id="hikeVideo" controls style="display:none;"></video>
+            </div>
+        </div>
 
+        <div class="section">
+            <label for="food">Choose Food Options:</label>
+            <select id="food">
+                <option value="Cafe Silva">Cafe Silva</option>
+                <option value="Big John's Mountain Grill">Big John's Mountain Grill</option>
+                <option value="La Sierra Mexican Restaurant">La Sierra Mexican Restaurant</option>
+            </select>
+            <div class="media" id="foodMedia">
+                <img src="" id="foodImage" alt="Food Image" style="display:none;">
+                <video id="foodVideo" controls style="display:none;"></video>
+            </div>
+        </div>
+
+        <div class="section">
+            <label for="activity">Choose an Activity:</label>
+            <select id="activity">
+                <option value="Stargazing at Frazier Park">Stargazing at Frazier Park</option>
+                <option value="Wine Tasting at Local Vineyard">Wine Tasting at Local Vineyard</option>
+                <option value="Visit the Ridge Route Museum">Visit the Ridge Route Museum</option>
+            </select>
+            <div class="media" id="activityMedia">
+                <img src="" id="activityImage" alt="Activity Image" style="display:none;">
+                <video id="activityVideo" controls style="display:none;"></video>
+            </div>
+        </div>
+
+        <div class="section">
+            <input type="button" value="Generate Itinerary" onclick="generateItinerary()">
+        </div>
+
+        <div id="itinerary" class="section" style="display: none;">
+            <h3>Your Itinerary:</h3>
+            <p id="hikeChoice"></p>
+            <p id="foodChoice"></p>
+            <p id="activityChoice"></p>
+        </div>
+    </div>
+
+    <script>
+        function generateItinerary() {
+            const hike = document.getElementById('hike').value;
+            const food = document.getElementById('food').value;
+            const activity = document.getElementById('activity').value;
+
+            document.getElementById('hikeChoice').textContent = `Hike: ${hike}`;
+            document.getElementById('foodChoice').textContent = `Food: ${food}`;
+            document.getElementById('activityChoice').textContent = `Activity: ${activity}`;
+
+            updateMedia(hike, 'hike');
+            updateMedia(food, 'food');
+            updateMedia(activity, 'activity');
+
+            document.getElementById('itinerary').style.display = 'block';
+        }
+
+        function updateMedia(choice, type) {
+            const mediaMap = {
+                "Frazier Mountain Trail": {
+                    image: "frazier_mountain.jpg",
+                    video: "frazier_mountain.mp4"
+                },
+                "Pine Mountain Club Trail": {
+                    image: "pine_mountain.jpg",
+                    video: "pine_mountain.mp4"
+                },
+                "McGill Trail": {
+                    image: "mcgill_trail.jpg",
+                    video: "mcgill_trail.mp4"
+                },
+                "Cafe Silva": {
+                    image: "cafe_silva.jpg",
+                    video: "cafe_silva.mp4"
+                },
+                "Big John's Mountain Grill": {
+                    image: "big_johns.jpg",
+                    video: "big_johns.mp4"
+                },
+                "La Sierra Mexican Restaurant": {
+                    image: "la_sierra.jpg",
+                    video: "la_sierra.mp4"
+                },
+                "Stargazing at Frazier Park": {
+                    image: "stargazing.jpg",
+                    video: "stargazing.mp4"
+                },
+                "Wine Tasting at Local Vineyard": {
+                    image: "wine_tasting.jpg",
+                    video: "wine_tasting.mp4"
+                },
+                "Visit the Ridge Route Museum": {
+                    image: "ridge_museum.jpg",
+                    video: "ridge_museum.mp4"
+                }
+            };
+
+            const media = mediaMap[choice];
+            const imageElement = document.getElementById(`${type}Image`);
+            const videoElement = document.getElementById(`${type}Video`);
+
+            if (media && media.image) {
+                imageElement.src = media.image;
+                imageElement.style.display = 'block';
+            } else {
+                imageElement.style.display = 'none';
+            }
+
+            if (media && media.video) {
+                videoElement.src = media.video;
+                videoElement.style.display = 'block';
+            } else {
+                videoElement.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
